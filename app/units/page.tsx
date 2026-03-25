@@ -68,7 +68,8 @@ type UnitStats = {
   inactive: number;
 };
 
-const API_BASE = "http://localhost:4000/api";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export default function UnitsPage() {
   const router = useRouter();
@@ -144,14 +145,14 @@ export default function UnitsPage() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `${API_BASE}/units${queryString ? `?${queryString}` : ""}`,
-        {
-          cache: "no-store",
-          headers: {
-            Authorization: `Bearer ${token || ""}`,
-          },
-        }
-      );
+  `${API_BASE}/api/units${queryString ? `?${queryString}` : ""}`,
+  {
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${token || ""}`,
+    },
+  }
+);
 
       if (res.status === 401) {
         localStorage.removeItem("token");
@@ -181,12 +182,12 @@ export default function UnitsPage() {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`${API_BASE}/units/stats`, {
-        cache: "no-store",
-        headers: {
-          Authorization: `Bearer ${token || ""}`,
-        },
-      });
+      const res = await fetch(`${API_BASE}/api/units/stats`, {
+  cache: "no-store",
+  headers: {
+    Authorization: `Bearer ${token || ""}`,
+  },
+});
 
       if (res.status === 401) {
         localStorage.removeItem("token");
@@ -239,12 +240,12 @@ export default function UnitsPage() {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`${API_BASE}/units/${selectedUnit.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token || ""}`,
-        },
-      });
+      const res = await fetch(`${API_BASE}/api/units/${selectedUnit.id}`, {
+  method: "DELETE",
+  headers: {
+    Authorization: `Bearer ${token || ""}`,
+  },
+});
 
       if (res.status === 401) {
         localStorage.removeItem("token");
